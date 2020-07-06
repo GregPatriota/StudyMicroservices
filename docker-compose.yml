@@ -14,23 +14,30 @@ services:
     depends_on:
       - rabbitmq
 
-  service_02:
-    image: service-02:latest
-    restart: unless-stopped
-    build:
-      context: services/order_service
-      dockerfile: Dockerfile
+#  service_02:
+#    image: service-02:latest
+#    restart: unless-stopped
+#    build:
+#      context: services/order_service
+#      dockerfile: Dockerfile
+#    networks:
+#      - test
+#    ports:
+#      - "5001:5001"
+#    depends_on:
+#      - rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    environment:
+      - RABBITMQ_MANAGEMENT_USERNAME=guest
+      - RABBITMQ_MANAGEMENT_PASSWORD=guest
+      - RABBITMQ_MANAGEMENT_NODE_PORT_NUMBER=5672
     networks:
       - test
     ports:
-      - "5001:5001"
-    depends_on:
-      - rabbitmq
-
-  rabbitmq:
-    image: bitnami/rabbitmq:latest
-    networks:
-      - test
+      - "5672:5672"
+      - "15672:15672"
 
 networks:
   test:

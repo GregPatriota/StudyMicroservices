@@ -1,2 +1,4 @@
 flask
-flask_nameko
+nameko
+flasgger
+pika
