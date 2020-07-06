@@ -13,10 +13,10 @@ def hello_world():
     # parameters = pika.URLParameters('amqp://guest:guest@localhost:5672//')
     credentials = pika.PlainCredentials('guest', 'guest')
     parameters = pika.ConnectionParameters(host='localhost',
-                                           virtual_host='rabbitmq_1',
+                                           virtual_host='/',
                                            port=5672,
                                            credentials=credentials)
-    connection = pika.BlockingConnection(pika.ConnectionParameters(parameters))
+    connection = pika.BlockingConnection(parameters)
     channel = connection.channel()
     channel.queue_declare(queue='hello')
     channel.basic_publish(exchange='', routing_key='hello', body='Hello World!')
