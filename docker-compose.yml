@@ -30,9 +30,14 @@ services:
   rabbitmq:
     image: rabbitmq:3-management
     environment:
-      - RABBITMQ_MANAGEMENT_USERNAME=guest
-      - RABBITMQ_MANAGEMENT_PASSWORD=guest
-      - RABBITMQ_MANAGEMENT_NODE_PORT_NUMBER=5672
+      - RABBITMQ_HOSTNAME=rabbitmq
+      - RABBITMQ_VIRTUALHOST=/
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USERNAME=guest
+      - RABBITMQ_PASSWORD='guest'
+      - RABBITMQ_PREFETCHCOUNT=16
+      - RABBITMQ_DURABLE=true
+      - RABBITMQ_LAZY=false
     networks:
       - test
     ports:

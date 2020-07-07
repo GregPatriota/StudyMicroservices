@@ -12,7 +12,7 @@ app = Flask(__name__)
 def hello_world():
     # parameters = pika.URLParameters('amqp://guest:guest@localhost:5672//')
     credentials = pika.PlainCredentials('guest', 'guest')
-    parameters = pika.ConnectionParameters(host='localhost',
+    parameters = pika.ConnectionParameters(host='rabbitmq',
                                            virtual_host='/',
                                            port=5672,
                                            credentials=credentials)
