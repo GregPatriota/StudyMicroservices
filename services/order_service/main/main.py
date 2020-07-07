@@ -1,22 +1,29 @@
 from flask import Flask, Response
 from json import dumps
-from flask_nameko import FlaskPooledClusterRpcProxy
-
-app = Flask(__name__)
-rpc = FlaskPooledClusterRpcProxy()
-app.config.update(dict(
-        NAMEKO_AMQP_URI='amqp://guest:guest@localhost:5672'
-    ))
-
-rpc.init_app(app)
+import pika
+from time import sleep
 
 
-@app.route('/')
-def hello_world():
-    return Response(response=dumps({'msg': 'Hello World'}),
-                    content_type='Application/json',
-                    status=200)
+def on_message(channel, method_frame, header_frame, body):
+    print(method_frame.delivery_tag)
+    print(body)
+    print()
+    channel.basic_ack(delivery_tag=method_frame.delivery_tag)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    credentials = pika.PlainCredentials('guest', 'guest')
+    parameters = pika.ConnectionParameters(host='rabbitmq',
+                                           virtual_host='/',
+                                           port=5672,
+                                           credentials=credentials)
+    sleep(10)
+    connection = pika.BlockingConnection(parameters)
+    channel = connection.channel()
+    channel.basic_consume('hello', on_message)
+    print(" [x] Sent 'Hello World!'")
+    try:
+        channel.start_consuming()
+    except KeyboardInterrupt:
+        channel.stop_consuming()
+    connection.close()

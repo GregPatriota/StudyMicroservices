@@ -3,9 +3,6 @@ from json import dumps
 import pika
 
 app = Flask(__name__)
-# rpc = RpcProxy(dict(
-#         AMQP_URI='amqp://guest:guest@localhost:5672//'
-#     ))
 
 
 @app.route('/')

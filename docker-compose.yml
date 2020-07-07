@@ -14,18 +14,18 @@ services:
     depends_on:
       - rabbitmq
 
-#  service_02:
-#    image: service-02:latest
-#    restart: unless-stopped
-#    build:
-#      context: services/order_service
-#      dockerfile: Dockerfile
-#    networks:
-#      - test
-#    ports:
-#      - "5001:5001"
-#    depends_on:
-#      - rabbitmq
+  service_02:
+    image: service-02:latest
+    restart: unless-stopped
+    build:
+      context: services/order_service
+      dockerfile: Dockerfile
+    networks:
+      - test
+    ports:
+      - "5001:5001"
+    depends_on:
+      - rabbitmq
 
   rabbitmq:
     image: rabbitmq:3-management
